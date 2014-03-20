@@ -4,3 +4,8 @@
 *.jar
 *.war
 *.ear
+*.html
+*.css
+gwt-unitCache*
+.*
+war
