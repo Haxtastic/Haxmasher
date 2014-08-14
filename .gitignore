@@ -7,6 +7,5 @@
 *.html
 *.css
 gwt-unitCache*
-.*
 war
 bin
