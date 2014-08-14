@@ -1,27 +1,78 @@
-package com.haxtastic.haxmasher.entity.Masher;
+package com.haxtastic.haxmasher.entity.masher;
+
+import java.util.Random;
 
 import com.haxtastic.haxmasher.Constants;
 import com.haxtastic.haxmasher.entity.Actor;
 
 public abstract class  Masher extends Actor {
-	public float 					health;
-	public float					maxhealth;
+	public int	 					health;
+	public int	 					curhealth;
+	public int						maxhealth;
 	public Constants.Elements.type element;
-	public float 					exp;
-	public float 					damage;
-	public float 					weapon;
+	public int	 					exp;
+	public int	 					damage;
+	public float					armor;
+	public int	 					weapon;
 	public int   					level;
+	public String					nick;
+	public int						crit;
+	public float					tick;
+	public boolean					lastCrit = false;
 	
-	public Masher(int h, Constants.Elements.type e, float xp, float dmg, float wpn, String nme, int lvl) {
+	public Masher(int h, int xp, int dmg, int wpn, float arm, String nme, int lvl, String nickname, int crt) {
 		super(nme);
-		height = 2.0f;
-		width= 2.0f;
-		maxhealth = health = h;
-		element = e;
-		exp = xp;
-		damage = dmg;
+		height = Constants.Sizes.masherY;
+		width = Constants.Sizes.masherX;
+		maxhealth = health = curhealth = h;
+		damage = dmg + wpn;
 		weapon = wpn;
+		armor = arm;
+		nick = nickname;
+		crit = crt;
 		level = lvl;
+		exp = xp;
+	}
+		
+	public String attack(Masher target) {
+		Random rand = new Random();
+		String msg = "";
+		String sCrit = "";
+		float amount = rand.nextInt((int)(((getDamage())*(Constants.Stats.maxDamage - Constants.Stats.minDamage)))) + (damage*Constants.Stats.minDamage);
+		amount-= amount*(target.armor/(Constants.Stats.armorReduction+target.armor));
+		float critchance = rand.nextInt(100) + 1;
+		if(this.getClass().equals(Guy.class))
+			msg+=getNick() +  " attacks you";
+		else if(this.getClass().equals(Player.class))
+			msg+="You attack " + target.getNick();
+		if(critchance <= crit) {
+			amount*=2;
+			sCrit =" critical";
+		}
+		int dmg = Math.round(amount);
+		msg+= " for " + dmg + sCrit + " damage.";
+		target.takeDamage(dmg);
+		return msg;
+	}
+	
+	@Override
+	public void act(float dt) {
+		if(curhealth < health)
+			health-=maxhealth*tick;
+		if(health < curhealth)
+			health = curhealth;
+	}
+	
+	public int takeDamage(int dmg) {
+		curhealth-=dmg;
+		if(curhealth <= 0) {
+			curhealth = 0;
+			tick = (0.05f);
+		} else if((float)curhealth/(float)health < 0.5f)
+			tick = (0.03f);
+		else
+			tick = (0.01f);
+		return curhealth;
 	}
 	
 	public int getLevel() {
@@ -41,58 +92,57 @@ public abstract class  Masher extends Actor {
 		return weapon;
 	}
 	
-	public float addWeapon(float wpn) {
+	public float addWeapon(int wpn) {
 		return setWeapon(weapon+wpn);
 	}
 	
-	public float setWeapon(float wpn) {
+	public float setWeapon(int wpn) {
 		weapon = wpn;
 		return weapon;
+	}
+	
+	public String getNick() {
+		return nick;
 	}
 	
 	public String getName() {
 		return name;
 	}
 	
-	public String setName(String nme) {
-		name = nme;
-		return name;
+	public int getDamage() {
+		return damage+weapon;
 	}
 	
-	public float getDamage() {
-		return damage;
-	}
-	
-	public float addDamage(float dmg) {
+	public int addDamage(int dmg) {
 		return setDamage(damage+dmg);
 	}
 	
-	public float setDamage(float dmg) {
+	public int setDamage(int dmg) {
 		damage = dmg;
 		return damage;
 	}
 	
-	public float getExp() {
+	public int getExp() {
 		return exp;
 	}
 	
-	public float addExp(float xp) {
+	public int addExp(int xp) {
 		return setExp(exp+xp);
 	}
 	
-	public float setExp(float xp) {
+	public int setExp(int xp) {
 		exp = xp;
-		checkLevel();
 		return exp;
 	}
 	
-	public float expForLevel(int level){
-		return (float) ((10*(Math.pow(level, 3)))-(25*(Math.pow(level, 2))));
+	public int expForLevel(int lvl){
+		return Math.round((float)(50.0f/3.0f*(Math.pow(lvl, 3)-(6*Math.pow(lvl, 2))+(17*lvl)-12)));
 	}
 	
 	public int checkLevel() {
-		while(expForLevel(level) < exp)
+		while(expForLevel(level+1) <= exp) {
 			level++;
+		}
 		return level;
 	}
 	
@@ -110,15 +160,19 @@ public abstract class  Masher extends Actor {
 		return element;
 	}
 	
-	public float getHealth() {
+	public int getHealth() {
 		return health;
 	}
 	
-	public float addHealth(float hp) {
+	public int resetHealth() {
+		return setHealth(maxhealth);
+	}
+	
+	public int addHealth(int hp) {
 		return setHealth(health+hp);
 	}
 	
-	public float setHealth(float hp) {
+	public int setHealth(int hp) {
 		health = hp;
 		return health;
 	}

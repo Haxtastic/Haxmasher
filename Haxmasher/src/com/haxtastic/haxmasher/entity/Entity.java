@@ -11,4 +11,8 @@ public abstract class Entity {
 		this.width = width;
 		this.height = height;
 	}
+	
+	public boolean isWithin(float wX, float wY) {
+		return (y <= wY && y+height >= wY) && (x <= wX && x+width >= wX);
+	}
 }

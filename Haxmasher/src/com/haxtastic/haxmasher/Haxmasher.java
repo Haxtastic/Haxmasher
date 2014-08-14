@@ -1,71 +1,92 @@
 package com.haxtastic.haxmasher;
 
+
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.haxtastic.haxmasher.screen.GameScreen;
+import com.haxtastic.haxmasher.screen.OverlayScreen;
+import com.haxtastic.haxmasher.screen.Screen;
 
 public class Haxmasher implements ApplicationListener {
 	public static final int FRAME_WIDTH = 1920;
 	public static final int FRAME_HEIGHT = 1080;
 	
-	private final boolean started = false;
-	private boolean running = false;
-	private HaxScreen screen;
+	private boolean running = true;
+	private Screen screen;
+	private Screen logo;
+	
+	private final Haxput input = new Haxput();
 	
 	private float accum = 0;
 	private float dt = 1.0f / 45.0f;
 	
 	@Override
 	public void create() {
+		Constants.PIXELS_PER_METER_X = Haxmasher.FRAME_WIDTH/16;
+		Constants.PIXELS_PER_METER_Y = Haxmasher.FRAME_HEIGHT/9;
+		Constants.SCREEN_MUL_X = (float)Haxmasher.FRAME_WIDTH/Gdx.graphics.getWidth();
+		Constants.SCREEN_MUL_Y = (float)Haxmasher.FRAME_HEIGHT/Gdx.graphics.getHeight();
 		Art.load();
-		setScreen(new GameScreen(this));
+		setScreen(new GameScreen());
+		logo = new OverlayScreen(this);
+		logo.init(this);
+		Gdx.input.setInputProcessor(input);
 	}
 	
 	@Override
 	public void render() {
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		float delta = Gdx.graphics.getDeltaTime();
-		
-		if(delta > 0.45f)
-			delta = 0.45f;
-		
-		accum += delta;
-		
-		while(accum >= dt){
-			screen.tick(dt);
-			//t += dt;
-			accum -= dt;
+		if(running) {
+			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			
+			float delta = Gdx.graphics.getDeltaTime();
+			
+			if(delta > 0.45f)
+				delta = 0.45f;
+			
+			accum += delta;
+			
+			while(accum >= dt){
+				screen.tick(dt, input);
+				//input.tick();
+				//t += dt;
+				accum -= dt;
+			}
+			screen.render(delta);
+			logo.render(delta);
+			if(input.buttons[Haxput.ESCAPE])
+				Gdx.app.exit();
 		}
-		screen.render(delta);
 	}
 		
-		public void setScreen (HaxScreen newScreen) {
-			if (screen != null) screen.hide();
-			screen = newScreen;
-			if (screen != null) screen.show();
-		}
-		
-		@Override
-		public void pause () {
-			running = false;
-		}
+	public void setScreen (Screen newScreen) {
+		if (screen != null) screen.removed();
+		screen = newScreen;
+		if (screen != null) screen.init(this);
+	}
+	
+	@Override
+	public void pause () {
+		running = false;
+	}
 
-		@Override
-		public void resume () {
-			running = true;
-		}
-		
-		@Override
-		public void resize (int width, int height) {
-		}
+	@Override
+	public void resume () {
+		running = true;
+	}
+	
+	@Override
+	public void resize (int width, int height) {
+		Constants.SCREEN_MUL_X = (float)Haxmasher.FRAME_WIDTH/width;
+		Constants.SCREEN_MUL_Y = (float)Haxmasher.FRAME_HEIGHT/height;
+		screen.resize(width, height);
+	}
 
-		@Override
-		public void dispose () {
-		}
+	@Override
+	public void dispose () {
+	}
 }
 		
 		//debugRenderer.render(sim.simulation, camera.combined.scale(Constants.PIXELS_PER_METER_X, Constants.PIXELS_PER_METER_Y, 1.0f));

@@ -29,6 +29,6 @@ public class Actor extends Entity {
 		if(width < 0) width = -width;
 		float posX = x * Constants.PIXELS_PER_METER_X;
 		float posY = y * Constants.PIXELS_PER_METER_Y;
-		batch.draw(spriteRegion, posX, posY, width * Constants.PIXELS_PER_METER_X, height* Constants.PIXELS_PER_METER_Y);
+		batch.draw(spriteRegion, posX, posY, width * Constants.PIXELS_PER_METER_X, height * Constants.PIXELS_PER_METER_Y);
 	}
 }

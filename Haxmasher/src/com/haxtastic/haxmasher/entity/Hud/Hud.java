@@ -1,8 +1,6 @@
-package com.haxtastic.haxmasher.entity.Hud;
+package com.haxtastic.haxmasher.entity.hud;
 
-import com.haxtastic.haxmasher.Constants;
 import com.haxtastic.haxmasher.entity.Actor;
-import com.haxtastic.haxmasher.entity.Masher.Masher;
 
 public abstract class Hud extends Actor {
 	
