@@ -15,11 +15,14 @@ limitations under the License.
 */
 package com.haxtastic.haxmasher.scene;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.haxtastic.haxmasher.Constants;
 import com.haxtastic.haxmasher.Constants.Buttons;
 import com.haxtastic.haxmasher.Constants.state;
 import com.haxtastic.haxmasher.Haxput;
@@ -35,14 +38,15 @@ import com.haxtastic.haxmasher.entity.ui.Console;
 import com.haxtastic.haxmasher.entity.ui.Menu;
 import com.haxtastic.haxmasher.screen.GameScreen;
 import com.haxtastic.haxmasher.screen.Screen;
+import com.haxtastic.haxmasher.entity.PlayerStats;
 
 public class Battle extends Scene {
 	private Player player = null;
 	private Guy enemy = null;
 	private Menu menu = null;
-//	private MasherHUD pHud, eHud = null;
+	private MasherHUD pHud, eHud = null;
 	private state State;
-	private float attackDelay;//, resetDelay = 0f;
+	private float attackDelay, resetDelay = 0f;
 	private Console console = null;
 	
 	public Battle() {
@@ -51,9 +55,9 @@ public class Battle extends Scene {
 	@Override
 	public void init(Screen s) {
 		super.init(s);
-		Actor bg = new Actor("background");
-		bg.width = 16.0f;
-		bg.height= 9.f;
+		Actor bg	= new Actor("background");
+		bg.width	= 16.0f;
+		bg.height	= 9.f;
 		addActor(bg);
 		
 		State = state.input;
@@ -62,10 +66,8 @@ public class Battle extends Scene {
 		
 		enemy = (Guy)addActor(EntityFactory.createGuy(player.getLevel()));
 		
-		//pHud = (MasherHUD)
-		addActor(new MasherHUD(player));
-		//eHud = (MasherHUD)
-		addActor(new MasherHUD(enemy));
+		pHud = (MasherHUD)addActor(new MasherHUD(player));
+		eHud = (MasherHUD)addActor(new MasherHUD(enemy));
 		
 		if(menu == null)
 			menu = new Menu();

@@ -17,23 +17,34 @@ package com.haxtastic.haxmasher.scene;
 
 import java.util.Iterator;
 import java.util.List;
+
+import com.haxtastic.haxmasher.Art;
 import com.haxtastic.haxmasher.Constants;
+import com.haxtastic.haxmasher.Haxmasher;
 import com.haxtastic.haxmasher.Haxput;
 import com.haxtastic.haxmasher.Constants.Buttons;
+import com.haxtastic.haxmasher.Constants.state;
 import com.haxtastic.haxmasher.entity.Actor;
 import com.haxtastic.haxmasher.entity.PlayerStats;
+import com.haxtastic.haxmasher.entity.masher.Player;
 import com.haxtastic.haxmasher.entity.ui.Button;
 import com.haxtastic.haxmasher.entity.ui.Menu;
 import com.haxtastic.haxmasher.screen.GameScreen;
 import com.haxtastic.haxmasher.screen.Screen;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class Stats extends Scene {
 	private int points, level = 0;
 	private Menu menu;
-	//private boolean ready = false;
+	private boolean ready = false;
 	private Scene parent = null;
 	
 	public Stats() {

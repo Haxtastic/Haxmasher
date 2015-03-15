@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.haxtastic.haxmasher.Art;
 import com.haxtastic.haxmasher.Constants;
 import com.haxtastic.haxmasher.entity.Actor;
+import com.haxtastic.haxmasher.entity.PlayerStats;
 import com.haxtastic.haxmasher.entity.masher.Guy;
 import com.haxtastic.haxmasher.entity.masher.Masher;
 import com.haxtastic.haxmasher.entity.masher.Player;
@@ -44,14 +45,14 @@ public class MasherHUD extends Hud {
 			x = Constants.Positions.playerHPBarX;
 			y = Constants.Positions.playerHPBarY;
 			hpslice.x = Constants.Positions.playerHPBarX+(3.01f/Constants.PIXELS_PER_METER_X);
-			hpslice.y = Constants.Positions.playerHPBarY+(3/Constants.PIXELS_PER_METER_Y);
+			hpslice.y = Constants.Positions.playerHPBarY+(3f/Constants.PIXELS_PER_METER_Y);
 			statsX = Constants.Positions.playerStatsX*Constants.PIXELS_PER_METER_X;
 			statsY = Constants.Positions.playerStatsY*Constants.PIXELS_PER_METER_Y;
 		} else if(mash.getClass().equals(Guy.class)) {
 			x = Constants.Positions.enemyHPBarX;
 			y = Constants.Positions.enemyHPBarY;
 			hpslice.x = Constants.Positions.enemyHPBarX+(3.01f/Constants.PIXELS_PER_METER_X);
-			hpslice.y = Constants.Positions.enemyHPBarY+(3/Constants.PIXELS_PER_METER_Y);
+			hpslice.y = Constants.Positions.enemyHPBarY+(3f/Constants.PIXELS_PER_METER_Y);
 			statsX = Constants.Positions.enemyStatsX*Constants.PIXELS_PER_METER_X;
 			statsY = Constants.Positions.enemyStatsY*Constants.PIXELS_PER_METER_Y;
 		}

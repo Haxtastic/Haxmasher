@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.haxtastic.haxmasher.Constants;
 import com.haxtastic.haxmasher.Haxmasher;
 import com.haxtastic.haxmasher.Haxput;
+import com.haxtastic.haxmasher.scene.Battle;
 
 public abstract class Screen {
 	protected SpriteBatch batch;

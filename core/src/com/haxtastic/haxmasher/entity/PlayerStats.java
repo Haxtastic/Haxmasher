@@ -15,6 +15,8 @@ limitations under the License.
 */
 package com.haxtastic.haxmasher.entity;
 
+import com.haxtastic.haxmasher.Constants;
+
 public class PlayerStats {
 	public static int	 	exp;
 	public static int   	level;
