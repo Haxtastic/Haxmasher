@@ -24,8 +24,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Haxmasher";
 		//cfg.useGL20 = true;
-		cfg.width = 960;
-		cfg.height = 600;
+		cfg.width = 1280;
+		cfg.height = 720;
 		
 		new LwjglApplication(new Haxmasher(), cfg);
 	}

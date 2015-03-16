@@ -16,7 +16,6 @@ limitations under the License.
 package com.haxtastic.haxmasher.entity.masher;
 
 import com.haxtastic.haxmasher.Constants;
-import com.haxtastic.haxmasher.entity.PlayerStats;
 
 public class Guy extends Masher {
 	public String nickname;

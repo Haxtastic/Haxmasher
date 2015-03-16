@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.haxtastic.haxmasher.Art;
 import com.haxtastic.haxmasher.Constants;
 import com.haxtastic.haxmasher.entity.Actor;
-import com.haxtastic.haxmasher.entity.PlayerStats;
 import com.haxtastic.haxmasher.entity.masher.Guy;
 import com.haxtastic.haxmasher.entity.masher.Masher;
 import com.haxtastic.haxmasher.entity.masher.Player;

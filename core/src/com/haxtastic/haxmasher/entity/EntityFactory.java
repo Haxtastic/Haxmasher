@@ -33,9 +33,11 @@ public class EntityFactory {
 	
 	public static Guy createGuy(int level) {
 		Random rand = new Random();
-		level = Long.valueOf(Math.round(Math.random() * (((level+1) - (level-1)) + 1) + (level-1))).intValue();
-		if(level <= 0)
-			level = 1;
+		if(level < 2) {
+			level = Math.max(1, level);
+		} else {
+			level = Math.max(1, Long.valueOf(Math.round(Math.random() * (((level+1) - (level-1)) + 1) + (level-1))).intValue());
+		}
 		int points = level*Constants.Stats.levelWeight;
 		int point[] = genNumbers(4, points);
 		int health = Constants.Stats.healthWeight*point[0] + Constants.Stats.healthWeight;
